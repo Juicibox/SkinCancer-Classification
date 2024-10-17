@@ -15,4 +15,7 @@
 ## how to run?
 
 clone the repository
-[Comand](https://github.com/Juicibox/SkinCancer-Classification.git)
+
+```bash
+https://github.com/Juicibox/SkinCancer-Classification.git
+```
