@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin:700&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+</head>
+
+<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="77">
+    <header class="masthead" style="background-image:url('assets/img/intro-bg.jpg');">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="brand-heading">SKINCancer<br>pREDICT</h1>
+                        <p class="intro-text">App to predict skin cancer</p><a class="btn btn-link btn-circle" role="button" href="#app"><i class="fa fa-angle-double-down animated"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="text-center download-section content-section" id="app" style="background-image: url('assets/img/downloads-bg.jpg');--bs-primary: #101014;--bs-primary-rgb: 16,16,20;">
+        <h1>Upload image</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="imageFile" name="file">
+            <div class="col">
+                <div class="btn-toolbar">
+                    <div class="btn-group" role="group"></div>
+                    <div class="btn-group" role="group"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-success" id="predictBtn" type="button">Predict</button>
+                </div>
+            </div>
+            <!-- Aquí es donde se mostrará el resultado -->
+            <div class="col">
+                <b id="predictionResult">Bold</b>
+            </div>
+        </form>
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('predictBtn').addEventListener('click', function() {
+            var formData = new FormData();
+            var imageFile = document.getElementById('imageFile').files[0];
+            
+            if (imageFile) {
+                formData.append("image", imageFile);
+        
+                fetch("/predict", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Cambia el contenido de la etiqueta <b> por el resultado
+                    document.getElementById('predictionResult').textContent = data.result;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById('predictionResult').textContent = "Error in prediction.";
+                });
+            } else {
+                alert("Please upload an image first.");
+            }
+        });
+    });
+    </script>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/grayscale.js"></script>
+</body>
+
+</html>
+
+
